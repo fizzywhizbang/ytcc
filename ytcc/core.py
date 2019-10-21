@@ -228,6 +228,8 @@ class Ytcc:
                 ]
         else:
             ydl_opts["format"] = conf.format
+            if conf.thumbnail:
+                ydl_opts["writethumbnail"] = True
             if conf.subtitles != "off":
                 ydl_opts["subtitleslangs"] = list(map(str.strip, conf.subtitles.split(",")))
                 ydl_opts["writesubtitles"] = True
