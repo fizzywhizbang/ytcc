@@ -229,7 +229,7 @@ class Ytcc:
         else:
             ydl_opts["format"] = conf.format
             if conf.thumbnail:
-                ydl_opts["writethumbnail"] = True
+                ydl_opts["writethumbnail"] = True #added thumbnail creation as it was missing if not audio only
             if conf.subtitles != "off":
                 ydl_opts["subtitleslangs"] = list(map(str.strip, conf.subtitles.split(",")))
                 ydl_opts["writesubtitles"] = True
