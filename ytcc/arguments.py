@@ -48,11 +48,11 @@ def get_args() -> argparse.Namespace:
                       " --to"))
 
     parser.add_argument("-a", "--add-channel",
-                        help=_("add a new channel. NAME is the name displayed by ytcc. URL is the "
+                        help=_("add a new channel. NAME is the name displayed by ytcc. DLDIR is the download directory under the folder defined in ytcc.conf URL is the "
                                "url of the channel's front page or the URL of any video published "
                                "by the channel"),
-                        nargs=2,
-                        metavar=("NAME", "URL"))
+                        nargs=3,
+                        metavar=("NAME", "DLDIR", "URL"))
 
     parser.add_argument("-c", "--list-channels",
                         help=_("print a list of all subscribed channels"),

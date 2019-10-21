@@ -331,7 +331,8 @@ def print_videos(videos: Iterable[Video],
 
 def download_video(video: Video, audio_only: bool = False) -> None:
     print(_('Downloading "{video.title}" by "{video.channel.displayname}"...').format(video=video))
-    success = ytcc_core.download_video(video=video, path=DOWNLOAD_PATH, audio_only=audio_only)
+    publisherID = video.channel.yt_channelid
+    success = ytcc_core.download_video(video=video, path=DOWNLOAD_PATH, audio_only=audio_only, publisherID=publisherID)
     if not success:
         print(_("An Error occured while downloading the video"))
 
@@ -399,9 +400,9 @@ def print_channels() -> None:
 
 
 @register_option("add_channel", exit=True)
-def add_channel(name: str, channel_url: str) -> None:
+def add_channel(name: str, dldir: str, channel_url: str) -> None:
     try:
-        ytcc_core.add_channel(name, channel_url)
+        ytcc_core.add_channel(name, dldir, channel_url)
     except BadURLException:
         print(_("{!r} is not a valid YouTube URL").format(channel_url))
     except DuplicateChannelException:

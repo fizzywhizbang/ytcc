@@ -43,7 +43,7 @@ DEFAULTS: Dict[str, Dict[str, Any]] = {
         "tableAlternateBackground": 245,
     },
     "youtube-dl": {
-        "format": "bestvideo[height<=?1080]+bestaudio/best",
+        "format": "bestvideo+bestaudio/best",
         "outputTemplate": "%(title)s.%(ext)s",
         "loglevel": "normal",
         "ratelimit": 0,

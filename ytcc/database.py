@@ -33,6 +33,7 @@ class Channel(Base):
     __tablename__ = "channel"
     id = Column(Integer, primary_key=True)
     displayname = Column(String, unique=True, nullable=False)
+    dldir = Column(String, unique=True, nullable=False)
     yt_channelid = Column(String, unique=True, nullable=False)
 
     videos = relationship("Video", back_populates="channel",
@@ -85,6 +86,10 @@ class Database:
 
     def get_channels(self) -> List[Channel]:
         return self.session.query(Channel).order_by(Channel.displayname).all()
+
+    def get_channel_dir(self, yt_channelid1: str) -> String:
+        test = self.session.query(Channel.dldir).filter_by(yt_channelid=yt_channelid1).one()
+        return test[0]
 
     def delete_channels(self, display_names: Iterable[str]):
         channels = self.session.query(Channel).filter(Channel.displayname.in_(display_names))

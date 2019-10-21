@@ -187,7 +187,7 @@ class Ytcc:
 
         return False
 
-    def download_video(self, video: Video, path: str = "", audio_only: bool = False) -> bool:
+    def download_video(self, video: Video, path: str = "", audio_only: bool = False, publisherID: str = "") -> bool:
         """Download the given video with youtube-dl and mark it as watched.
 
         If the path is not given, the path is read from the config file.
@@ -197,13 +197,14 @@ class Ytcc:
         :param audio_only: If True, only the audio track is downloaded.
         :return: True, if the video was downloaded successfully. False otherwise.
         """
+        
+        dldir = self.database.get_channel_dir(publisherID)
         if path:
             download_dir = path
         elif self.config.download_dir:
-            download_dir = self.config.download_dir
+            download_dir = os.path.join(self.config.download_dir, dldir)
         else:
             download_dir = ""
-
         conf = self.config.youtube_dl
 
         ydl_opts: Dict[str, Any] = {
@@ -215,6 +216,7 @@ class Ytcc:
             "ignoreerrors": False
         }
 
+        
         if audio_only:
             ydl_opts["format"] = "bestaudio/best"
             if conf.thumbnail:
@@ -249,10 +251,11 @@ class Ytcc:
             except youtube_dl.utils.YoutubeDLError:
                 return False
 
-    def add_channel(self, displayname: str, channel_url: str) -> None:
+    def add_channel(self, displayname: str, dldir: str, channel_url: str) -> None:
         """Subscribe to a channel.
 
         :param displayname: A human readable name of the channel.
+        :param dldir: download directory
         :param channel_url: The url to a page that can identify the channel.
         :raises ChannelDoesNotExistException: If the given URL does not exist.
         :raises DuplicateChannelException: If the channel already exists in the database.
@@ -293,7 +296,7 @@ class Ytcc:
         yt_channelid = channel_id_node[0].attrib.get("content")
 
         try:
-            self.database.add_channel(Channel(displayname=displayname, yt_channelid=yt_channelid))
+            self.database.add_channel(Channel(displayname=displayname,dldir=dldir, yt_channelid=yt_channelid))
         except sqlalchemy.exc.IntegrityError:
             raise DuplicateChannelException(f"Channel already subscribed: {displayname}")
 
