@@ -33,12 +33,13 @@ import youtube_dl
 from lxml import etree
 
 import feedparser
-
+# import proxyLib
 from ytcc.config import Config
 from ytcc.database import Channel, Database, Video
 from ytcc.exceptions import YtccException, BadURLException, ChannelDoesNotExistException, \
     DuplicateChannelException, InvalidSubscriptionFileError
 from ytcc.utils import unpack_optional
+
 
 
 def _get_youtube_rss_url(yt_channel_id: str) -> str:
@@ -236,6 +237,7 @@ class Ytcc:
                 ydl_opts["subtitleslangs"] = list(map(str.strip, conf.subtitles.split(",")))
                 ydl_opts["writesubtitles"] = True
                 ydl_opts["writeautomaticsub"] = True
+                # ydl_opts["proxy"] = proxyLib.getProxy()
                 ydl_opts["postprocessors"] = [{"key": "FFmpegEmbedSubtitle"}]
 
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
