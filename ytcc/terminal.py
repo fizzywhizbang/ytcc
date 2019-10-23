@@ -33,6 +33,7 @@ class Keys:
     F5 = "<F5>"
     F6 = "<F6>"
     F7 = "<F7>"
+    F8 = "<F8>"
 
 
 # https://invisible-island.net/xterm/xterm-function-keys.html
@@ -45,7 +46,7 @@ _KNOWN_KEYS = {
     "\x1bOt": Keys.F5,
     "\x1bOu": Keys.F6,
     "\x1bOv": Keys.F7,
-
+    "\x1bO1": Keys.F8,
     # rxvt
     "\x1b[11~": Keys.F1,
     "\x1b[12~": Keys.F2,
@@ -54,6 +55,7 @@ _KNOWN_KEYS = {
     "\x1b[15~": Keys.F5,
     "\x1b[17~": Keys.F6,
     "\x1b[18~": Keys.F7,
+    "\x1b[19~": Keys.F8,
 
     # linux
     "\x1b[[A": Keys.F1,

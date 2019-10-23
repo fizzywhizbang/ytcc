@@ -91,7 +91,7 @@ class Action(Enum):
     REFRESH = (None, terminal.Keys.F5, None)
     DOWNLOAD_AUDIO = (_("Download audio"), terminal.Keys.F7, COLORS.prompt_download_audio)
     DOWNLOAD_VIDEO = (_("Download video"), terminal.Keys.F6, COLORS.prompt_download_video)
-
+    DOWNLOAD_VIDEO2 = (_("Download Video with JD"), terminal.Keys.F8, COLORS.prompt_download_video)
 
 class Interactive:
 
@@ -210,6 +210,10 @@ class Interactive:
                     print()
                     download_video(video, False)
                     del index[tag]
+                elif self.action is Action.DOWNLOAD_VIDEO2:
+                    print()
+                    jdownload_video(video, False)
+                    del index[tag]
                 elif self.action is Action.PLAY_AUDIO:
                     print()
                     play(video, True)
@@ -229,6 +233,7 @@ class Interactive:
                     "    <F5> Refresh video list.\n"
                     "    <F6> Set action: Download video.\n"
                     "    <F7> Set action: Download audio.\n"
+                    "    <F8> Set action: Download with JD\n"
                     " <Enter> Accept first video.\n"
                     "<CTRL+D> Exit.\n"
                 ))
@@ -335,7 +340,12 @@ def download_video(video: Video, audio_only: bool = False) -> None:
     success = ytcc_core.download_video(video=video, path=DOWNLOAD_PATH, audio_only=audio_only, publisherID=publisherID)
     if not success:
         print(_("An Error occured while downloading the video"))
-
+def jdownload_video(video: Video, audio_only: bool = False) -> None:
+    print(_('Downloading "{video.title}" by "{video.channel.displayname}"...').format(video=video))
+    publisherID = video.channel.yt_channelid
+    success = ytcc_core.jdownload_video(video=video, path=DOWNLOAD_PATH, audio_only=audio_only, publisherID=publisherID, videotitle=video.title)
+    if not success:
+        print(_("An Error occured while downloading the video"))
 
 @register_option("mark_watched")
 def mark_watched(video_ids: List[int]) -> None:
@@ -373,6 +383,11 @@ def download(video_ids: List[int]) -> None:
     for video in ytcc_core.list_videos():
         download_video(video, NO_VIDEO)
 
+@register_option("jdownload")
+def jdownload(video_ids: List[int]) -> None:
+    ytcc_core.set_video_id_filter(video_ids)
+    for video in ytcc_core.list_videos():
+        jdownload_video(video, NO_VIDEO)
 
 @register_option("update")
 def update_all() -> None:
@@ -563,7 +578,7 @@ def run() -> None:
 
         "disable_interactive", "no_description", "no_header", "no_video", "path",
         "include_watched", "columns", "channel_filter", "since", "to", "list_channels", "update",
-        "list", "download", "watch", "mark_watched"
+        "list", "download", "jdownload", "watch", "mark_watched"
     ]
 
     action_executed = False

@@ -59,6 +59,9 @@ DEFAULTS: Dict[str, Dict[str, Any]] = {
         "Title": "on",
         "URL": "off",
         "Watched": "off"
+    },
+    "JDownloader": {
+        "watcherdir": "~/bin/JDownloader 2.0/folderwatch/"
     }
 }
 
@@ -118,6 +121,7 @@ class Config:
         self.youtube_dl = _YTDLConf(config["youtube-dl"])
         self.order_by = list(self.init_order())
         self.color = _ColorConf(config["color"])
+        self.watcherdir = os.path.expanduser(config["YTCC"]["watcherdir"])
 
     def init_order(self) -> Iterable[Any]:
         col_mapping = {

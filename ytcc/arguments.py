@@ -43,7 +43,7 @@ def is_date(string: str) -> datetime:
 def get_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=_("ytcc is a commandline YouTube client that keeps track of your favorite "
-                      "channels. The --list, --watch, --download, --mark-watched options can be "
+                      "channels. The --list, --watch, --download, --jdownload, --mark-watched options can be "
                       "combined with filter options --channel-filter, --include-watched, --since,"
                       " --to"))
 
@@ -88,6 +88,14 @@ def get_args() -> argparse.Namespace:
 
     parser.add_argument("-d", "--download",
                         help=_("download the videos identified by 'ID'. The videos are saved "
+                               "in $HOME/Downloads by default. Omitting the ID will download "
+                               "all videos that match the criteria given by the filter options"),
+                        nargs="*",
+                        type=int,
+                        metavar="ID")
+
+    parser.add_argument("-jd", "--jdownload",
+                         help=_("download the videos identified by 'ID' with JDownloader. The videos are saved "
                                "in $HOME/Downloads by default. Omitting the ID will download "
                                "all videos that match the criteria given by the filter options"),
                         nargs="*",

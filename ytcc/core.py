@@ -207,7 +207,7 @@ class Ytcc:
         else:
             download_dir = ""
         conf = self.config.youtube_dl
-
+        
         ydl_opts: Dict[str, Any] = {
             "outtmpl": os.path.join(download_dir, conf.output_template),
             "ratelimit": conf.ratelimit,
@@ -252,6 +252,43 @@ class Ytcc:
                 return True
             except youtube_dl.utils.YoutubeDLError:
                 return False
+
+    def jdownload_video(self, video: Video, path: str = "", audio_only: bool = False, publisherID: str = "", videotitle: str = "") -> bool:
+        """Download the given video with youtube-dl and mark it as watched.
+
+        If the path is not given, the path is read from the config file.
+
+        :param video: The video to download.
+        :param path: The directory where the download is saved.
+        :param audio_only: If True, only the audio track is downloaded.
+        :return: True, if the video was downloaded successfully. False otherwise.
+        """
+        folderwatch = self.config.watcherdir
+        
+        dldir = self.database.get_channel_dir(publisherID)        
+        url = self.get_youtube_video_url(video.yt_videoid)
+
+      
+        
+        #write to jdownloader watcher directory
+        cmd = ""
+        cmd += "#download %s\n" % videotitle
+        cmd += "text=\"%s\"\n" % url
+        #removed package name to use JDownloader preferences
+        #cmd += "packageName=%s\n" % videotitle 
+        cmd += "enabled=true\n"
+        cmd += "autoStart=TRUE\n"
+        cmd += "forcedStart=Default\n"
+        cmd += "autoConfirm=TRUE\n"
+        cmd += "downloadFolder=%s/<jd:packagename>\n" % dldir
+        cmd += "priority=DEFAULT\n"
+        cmd += "downloadPassword=null\n"
+        filename = folderwatch + video.yt_videoid +".crawljob"
+        f = open(filename, "w+")
+        f.write(cmd)
+        f.close()
+        video.watched = True
+        return True
 
     def add_channel(self, displayname: str, dldir: str, channel_url: str) -> None:
         """Subscribe to a channel.
