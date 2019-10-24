@@ -32,7 +32,8 @@ DEFAULTS: Dict[str, Dict[str, Any]] = {
         "DownloadDir": "~/Downloads",
         "mpvFlags": "--really-quiet --ytdl --ytdl-format=bestvideo[height<=?1080]+bestaudio/best",
         "alphabet": "sdfervghnuiojkl",
-        "orderBy": "channel, date"
+        "orderBy": "channel, date",
+        "watcherdir": "~/bin/JDownloader 2.0/folderwatch/"
     },
     "color": {
         "promptDownloadAudio": 2,
@@ -59,9 +60,6 @@ DEFAULTS: Dict[str, Dict[str, Any]] = {
         "Title": "on",
         "URL": "off",
         "Watched": "off"
-    },
-    "JDownloader": {
-        "watcherdir": "~/bin/JDownloader 2.0/folderwatch/"
     }
 }
 
