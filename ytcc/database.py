@@ -33,7 +33,7 @@ class Channel(Base):
     __tablename__ = "channel"
     id = Column(Integer, primary_key=True)
     displayname = Column(String, unique=True, nullable=False)
-    dldir = Column(String, unique=True, nullable=False)
+    dldir = Column(String, unique=True, nullable=True)
     yt_channelid = Column(String, unique=True, nullable=False)
 
     videos = relationship("Video", back_populates="channel",

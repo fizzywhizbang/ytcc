@@ -4,21 +4,13 @@ Command Line tool to keep track of your favourite YouTube channels without signi
 
 
 ## Installation
-### Arch Linux
-Install [ytcc](https://aur.archlinux.org/packages/ytcc/) from the AUR.
-
-### NixOS
-Install package `ytcc`.
-
-### Void Linux
-Install package `ytcc`.
 
 ### Other distros
 Ytcc requires python 3.6 or later. Install dependencies: `python3-sqlalchemy`, `python3-lxml`, `python3-feedparser`,
 `python3-setuptools`, `mpv`, `youtube-dl`, `gettext`.
 
 ```bash
-git clone https://github.com/woefe/ytcc.git
+git clone https://github.com/levinems/ytcc.git
 cd ytcc
 sudo python3 setup.py install
 sudo install -Dm644 zsh/_ytcc /usr/share/zsh/site-functions/_ytcc
@@ -146,7 +138,8 @@ thumbnail = on
 # Skips livestreams in download mode
 skiplivestream = yes
 
-
+# location of JDownloader folder watch
+watcherdir = ~/bin/JDownloader 2.0/folderwatch/
 # Columns printed by --list option, if --columns is not given as well.
 [TableFormat]
 id = on
